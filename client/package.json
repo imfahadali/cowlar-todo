@@ -1,10 +1,10 @@
 {
-  "name": "bug-tracker",
+  "name": "todo-mern-client",
   "private": true,
   "version": "0.0.0",
   "type": "commonjs",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
