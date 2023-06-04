@@ -23,9 +23,7 @@ const mockSetResponse = jest.fn((newResponse) => {
   mockResponse = newResponse;
 });
 
-const mockFetchData = jest.fn(() => {
-  response([{ id: 3, name: "New Todo", completed: false }, ...mockResponse]);
-});
+const mockFetchData = jest.fn();
 
 jest.mock("../hooks/useFetch", () => ({
   __esModule: true,

@@ -30,7 +30,7 @@ To get started with the Todo app, follow these steps:
 2. Create env file in client directory:
 
 ```bash
-   cd ./client
+   cd ./cowlar-todo/client
    touch .env
 ```
 
@@ -45,14 +45,21 @@ To get started with the Todo app, follow these steps:
 
 5. Create .env and add all the necessary configuration options, look at env.example (server directory):
 
-6. Build Docker Container: In the root directory where docker-compose.yaml file exists
+6. Download Docker, refer this link https://www.docker.com/products/docker-desktop/
 
-   ```bash
-      cd ../
-      docker-compose build
-      docker-compose up
-   ```
+7. Run Docker Engine by running Docker Desktop App
 
-7. Wait for the both the container to be build and connect, look at the terminal if it says MongoDB is connected you are good to go.
+8. Build Docker Container: Be In the root directory where docker-compose.yaml file exists and run
 
-8. To run test 
+```bash
+   docker-compose build
+   docker-compose up
+```
+
+9. Wait for the both the container to be build and connect, look at the terminal if it says MongoDB is connected you are good to go.
+
+10. To run test the docker-compose up should be running the services go to new terminal in root directory of app where docker-compose.yaml file exists do the following command
+
+```bash
+   docker-compose exec client npm run test
+```
