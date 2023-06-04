@@ -58,7 +58,7 @@ To get started with the Todo app, follow these steps:
 
 9. Wait for the both the container to be build and connect, look at the terminal if it says MongoDB is connected you are good to go.
 
-10. To run test the docker-compose up should be running the services go to new terminal in root directory of app where docker-compose.yaml file exists do the following command
+10. To run tests cases the docker-compose up should be running- the services- go to new terminal in root directory of app where docker-compose.yaml file exists do the following command
 
 ```bash
    docker-compose exec client npm run test
