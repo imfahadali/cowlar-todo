@@ -1,7 +1,7 @@
 import * as Yup from "yup";
-import { IBarSeries } from "../types";
 
-export const BACKEND_API = import.meta.env.VITE_BACKEND_API;
+// export const BACKEND_API = import.meta.env.VITE_BACKEND_API;
+export const BACKEND_API = 'http://localhost:4000/api'
 
 export const FALL_BACK_DP =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRP17y9FJz4C1ISLKROmJPGkXn0F4mnaEeEjA&usqp=CAU";

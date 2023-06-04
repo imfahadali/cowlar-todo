@@ -18,7 +18,10 @@ const Login = ({ setRegister }: Props) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmission = async (values: any, { setSubmitting }: any) => {
+  const handleSubmission = async (
+    values: { email: string; password: string },
+    { setSubmitting }: any
+  ) => {
     setIsLoading(true);
     const res = await loginUser(values);
     if (res?.status === 200) setState.setUser({ ...res.data.data });
@@ -78,7 +81,7 @@ const Login = ({ setRegister }: Props) => {
                 <div className="relative p-5 bg-white flex-1 md:flex-1">
                   <form
                     className={`flex flex-col space-y-5 ${
-                      isLoading ? "opacity-25" : ""
+                      isLoading ? "opacity-25 pointer-events-none" : ""
                     }`}
                     onSubmit={handleSubmit}
                   >

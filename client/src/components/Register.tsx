@@ -5,21 +5,22 @@ import UserContext from "../context/UserContext";
 import { registerUser } from "../utils/api";
 import { RegistrationValidation } from "../utils/constants";
 import LoadingSpinner from "./LoadingSpinner";
+import { TUserRegistration } from "../types";
 
-type Props = {
+interface IRegisterProps {
   setRegister: (val: boolean) => void;
-};
+}
 
-const Register = ({ setRegister }: Props) => {
+const Register = ({ setRegister }: IRegisterProps) => {
   const { setState } = useContext(UserContext);
 
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmission = async (values: any, { setSubmitting }: any) => {
-    //TODO: handle case if the user upload file other than image
-    // const isImage = credentials.profile.type.split("/")[0] === "image";
-    // if (!isImage) return setValError("Only image is allowed");
+  const handleSubmission = async (
+    values: TUserRegistration,
+    { setSubmitting }: any
+  ) => {
     setIsLoading(true);
     const res = await registerUser(values);
     console.log(res);
@@ -76,7 +77,7 @@ const Register = ({ setRegister }: Props) => {
               <div className="relative p-5 bg-white md:flex-1">
                 <form
                   className={`flex flex-col space-y-5 ${
-                    isLoading ? "opacity-25" : ""
+                    isLoading ? "opacity-25 pointer-events-none" : ""
                   }`}
                   onSubmit={handleSubmit}
                 >
@@ -163,14 +164,14 @@ const Register = ({ setRegister }: Props) => {
                         htmlFor="profile"
                         className="text-sm font-semibold text-gray-500"
                       >
-                        Profile picture(JPEG only)
+                        Profile picture
                       </label>
                     </div>
                     <input
                       type="file"
                       id="profile"
                       name="profile"
-                      accept="image/jpeg"
+                      accept="image/jpeg, image/png"
                       onChange={(e: any) =>
                         setFieldValue("profile", e.target.files[0])
                       }

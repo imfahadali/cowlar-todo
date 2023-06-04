@@ -1,6 +1,8 @@
 import axios, { AxiosError } from "axios";
 import { BACKEND_API } from "./constants";
-import { getBase64 } from "./helperFunction";
+import { File } from "buffer";
+
+import { TUserRegistration } from "../types";
 
 export const postItem = async (
   {
@@ -101,12 +103,18 @@ export const updateTodoName = async ({
   }
 };
 
-export const uploadPhoto = async (img: File) => {
+export const uploadPhoto = async (img: any) => {
   try {
-    const res = await axios.post(`${BACKEND_API}/upload`, {
-      imgBase64: await getBase64(img),
-      name: "s" + img.size + img.name,
+    const formData = new FormData();
+    formData.append("img", img);
+    formData.append("name", "s" + img.size + img.name);
+
+    const res = await axios.post(`${BACKEND_API}/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
+
     return { response: res.data, status: res.status };
   } catch (error) {
     return { response: error, status: 401 };
@@ -126,12 +134,7 @@ export const loginUser = async (credentials: {
   }
 };
 
-export const registerUser = async (credentials: {
-  email: string;
-  password: string;
-  name: string;
-  profile?: File;
-}) => {
+export const registerUser = async (credentials: TUserRegistration) => {
   try {
     let url;
     if (credentials.profile) {

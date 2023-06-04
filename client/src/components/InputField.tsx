@@ -14,7 +14,9 @@ const InputField = ({ postNewTodo }: IInputFieldProps) => {
   };
 
   const handleButtonSubmission = async () => {
+    console.log("handling button submission");
     if (inputValue.trim() === "") {
+      console.log("input is empty")
       setError("Please enter a value.");
       return;
     }
@@ -43,17 +45,17 @@ const InputField = ({ postNewTodo }: IInputFieldProps) => {
         <button
           className="px-4 py-2 mt-2 bg-gradient-to-b from-actionlgt via-action to-actiondrk bg-opacity-50  text-white w-full rounded-md opacity-100 transition-opacity duration-300"
           onClick={handleButtonSubmission}
-          // onClick={() => setIsInputVisible((prev) => !prev)}
+          data-testid="postbtn"
         >
           Post
         </button>
       ) : (
         <button
           className="px-4 py-2 mt-2 bg-gradient-to-b from-actionlgt via-action to-actiondrk bg-opacity-50  text-white w-full rounded-md opacity-100 transition-opacity duration-300"
-          // onClick={handleButtonSubmission}
           onClick={() => setIsInputVisible((prev) => !prev)}
+          data-testid="addbtn"
         >
-          Post
+          Add
         </button>
       )}
       <div
@@ -64,6 +66,8 @@ const InputField = ({ postNewTodo }: IInputFieldProps) => {
         {isInputVisible && (
           <>
             <input
+              id="todo-field"
+              data-testid="todo-field"
               type="text"
               className="absolute left-0 bg-transparent shadow-2xl  border border-secondary px-2 py-3 w-full rounded-md outline-none text-primary text-sm  duration-300 z-10 placeholder:text-primary"
               placeholder={error || "Add to do"}
@@ -71,7 +75,6 @@ const InputField = ({ postNewTodo }: IInputFieldProps) => {
               // disabled={}
               onKeyDown={handleEnterSubmisson}
               onChange={handleInputChange}
-              onBlur={setIsInputVisible.bind(null, false)}
               autoFocus
               required
             />

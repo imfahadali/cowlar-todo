@@ -1,4 +1,3 @@
-import XMark from "../assets/xmark-solid.svg";
 interface IModalMsgProps {
   message: string;
   setIsOpen: (val: boolean) => void;
@@ -12,7 +11,7 @@ const ModalMsg = ({ setIsOpen, message }: IModalMsgProps) => {
     >
       <div className="w-fit h-auto bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 px-5 py-3 flex flex-col relative rounded">
         <img
-          src={XMark}
+          src="/src/assets/xmark-solid.svg"
           width={11}
           className="absolute right-5 cursor-pointer"
           onClick={setIsOpen.bind(null, false)}

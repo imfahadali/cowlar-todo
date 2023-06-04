@@ -19,6 +19,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import { BACKEND_API, FALL_BACK_DP } from "../utils/constants";
 import TodoItem from "../components/TodoItem";
 import NavigationBar from "../components/NavigationBar";
+import { TTodoItem } from "../types";
 
 const Todos = () => {
   const [menuAppear, setMenuAppear] = useState(-1);
@@ -38,6 +39,7 @@ const Todos = () => {
   const trackRecentTodos = useRef(-1);
 
   const postNewTodo = async (name: string) => {
+    console.log("running post newTodo");
     const config = {
       url: `${BACKEND_API}/todo`,
       token: state.token,
@@ -137,15 +139,15 @@ const Todos = () => {
           !hideTodo ? "animation-expand" : "animation-fade-out"
         } h-72`}
       >
-        {/* {!hideTodo && ( */}
         <div className="flex flex-col bg-primary rounded-md drop-shadow-2xl h-72 w-full overflow-auto ">
           {todos || !loading ? (
             todos?.length ? (
-              todos.map((todo: any, index: number) => {
+              todos.map((todo: TTodoItem, index: number) => {
                 return (
                   <TodoItem
-                    todo={todo}
+                    key={index}
                     index={index}
+                    todo={todo}
                     menuAppear={menuAppear}
                     trackRecentTodos={trackRecentTodos}
                     handleMenuAppear={handleMenuAppear}

@@ -9,7 +9,7 @@ const UserProvider = ({ children }: any) => {
   // const [state, dispatch] = useReducer(reducer, initialState);
 
   const setState = {
-    setUser: (payload: TUserContext) => {
+    setUser: (payload: TUserContext | null) => {
       return dispatch({ type: actions.SET_USER, payload });
     },
   };

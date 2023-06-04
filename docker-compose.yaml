@@ -6,24 +6,21 @@ services:
       context: ./server
     image: myapp-server
     container_name: myapp-node-server
-    command: npm start 
+    command: npm start
     volumes:
       - ./server/:/usr/src/app
-      - /usr/src/app/node_modules
     ports:
       - "4000:4000"
-    depends_on:
-      - mongo
     env_file: ./server/.env
     environment:
       - NODE_ENV=development
     
-  mongo:
-    image: mongo
-    volumes:
-      - data-volume:/data/db
-    ports:
-      - "27017:27017"
+  # mongo:
+  #   image: mongo
+  #   volumes:
+  #     - data-volume:/data/db
+  #   ports:
+  #     - "27017:27017"
   
   client:
     build:
@@ -32,8 +29,7 @@ services:
     container_name: myapp-react-client
     command: npm run dev
     volumes:
-      - ./client/:/usr/app
-      - /usr/app/node_modules
+      - ./client/:/usr/src/app
     depends_on:
       - server
     ports:
@@ -41,6 +37,5 @@ services:
 
 volumes:
     data-volume:
-    node_modules:
     web-root:
       driver: local

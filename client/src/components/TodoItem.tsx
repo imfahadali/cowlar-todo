@@ -1,7 +1,13 @@
-import React, { MutableRefObject, useState, useEffect } from "react";
+import React, {
+  MutableRefObject,
+  useState,
+  useEffect,
+  KeyboardEvent,
+} from "react";
+import { TTodoItem } from "../types";
 
 interface ITodoItemProps {
-  todo: any;
+  todo: TTodoItem;
   index: number;
   menuAppear: number;
   trackRecentTodos: MutableRefObject<number>;
@@ -23,11 +29,16 @@ const TodoItem = ({
 }: ITodoItemProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editableTodo, setEditableTodo] = useState(todo);
-  const handleBlur = () => {
+  const callEditTodo = () => {
     // console.log(editableTodo._id)
     handleEditTodo(editableTodo._id, index, editableTodo.name);
     setIsEditMode(false);
     // setEditableTodo(todo.name);
+  };
+  const handleEnterEdit = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && editableTodo.name.trim() !== "") {
+      callEditTodo()
+    }
   };
 
   useEffect(() => {
@@ -42,6 +53,7 @@ const TodoItem = ({
           : ""
       } p-4 border-b border-secondary/50 text-secondarydrkst last:border-none relative flex justify-start items-center `}
       style={{ transitionDelay: `${index * 100}ms` }}
+      key={index}
     >
       <div className="form-group flex mr-3">
         <input
@@ -49,7 +61,6 @@ const TodoItem = ({
           id={`${editableTodo._id}`}
           checked={editableTodo.completed}
           onChange={() => handleCheckTodo(index, editableTodo._id)}
-          onBlur={handleBlur}
         />
         <label htmlFor={`${editableTodo._id}`} />
       </div>
@@ -62,11 +73,15 @@ const TodoItem = ({
             console.log(editableTodo);
             setEditableTodo({ ...editableTodo, name: e.target.value });
           }}
-          onBlur={handleBlur}
+          onBlur={callEditTodo}
+          onKeyDown={handleEnterEdit}
           autoFocus
         />
       ) : (
-        <span onClick={setIsEditMode.bind(null, true)}>
+        <span
+          onClick={setIsEditMode.bind(null, true)}
+          className={`${editableTodo.completed ? "line-through" : ""}`}
+        >
           {editableTodo.name}
         </span>
       )}
@@ -94,5 +109,3 @@ const TodoItem = ({
 };
 
 export default TodoItem;
-
-

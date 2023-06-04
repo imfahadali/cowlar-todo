@@ -17,9 +17,7 @@ import "./App.css";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
-      <Route path="/todo">
-        <Route index element={<Todos />} />
-      </Route>
+      <Route index element={<Todos />} />
     </Route>
   )
 );
