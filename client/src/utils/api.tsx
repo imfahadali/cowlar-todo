@@ -20,10 +20,12 @@ export const postItem = async (
     },
   };
 
-  const res = await axios.post(url, { name }, config);
-  if (res.status !== 200) return { error: "couldn't fetch", status: 404 };
-
-  return res?.data;
+  try {
+    const res = await axios.post(url, { name }, config);
+    return { data: res?.data, status: res?.status };
+  } catch (error) {
+    return handleAxiosError(error);
+  }
 };
 export const deleteItem = async ({
   url,

@@ -1,10 +1,6 @@
-import React, {
-  ChangeEvent,
-  KeyboardEvent,
-  useContext,
-  useRef,
-  useState,
-} from "react";
+import React, { ChangeEvent, useContext, useRef, useState } from "react";
+import { toast } from "react-toastify";
+
 import useFetch from "../hooks/useFetch";
 import {
   deleteItem,
@@ -20,6 +16,7 @@ import { BACKEND_API, FALL_BACK_DP } from "../utils/constants";
 import TodoItem from "../components/TodoItem";
 import NavigationBar from "../components/NavigationBar";
 import { TTodoItem } from "../types";
+import { updateToatify } from "../utils/helperFunction";
 
 const Todos = () => {
   const [menuAppear, setMenuAppear] = useState(-1);
@@ -47,9 +44,23 @@ const Todos = () => {
 
     trackRecentTodos.current++;
     setTodos([{ name: name }, ...todos]);
-    await postItem(config, name);
+    const toastId = toast.loading("Adding to DB Please wait...");
+
+    const res = await postItem(config, name);
     await fetchData();
     trackRecentTodos.current--;
+
+    if (res.status !== 200) {
+      updateToatify({
+        toastId,
+        type: "error",
+      });
+      return;
+    }
+    updateToatify({
+      toastId,
+      type: "success",
+    });
   };
 
   const handleDeleteTodo = async (index: number, todoId: string) => {
@@ -60,33 +71,59 @@ const Todos = () => {
     };
 
     let copyOfTodos = [...todos];
-    const cachedTodo = copyOfTodos[index];
+    const cachedTodo = { ...copyOfTodos[index] };
     copyOfTodos = copyOfTodos.filter((todo) => todo._id !== todoId);
     console.log(copyOfTodos);
     setTodos(copyOfTodos);
     setMenuAppear(-1);
 
+    const toastId = toast.loading("Deleting from DB Please wait...");
     const res = await deleteItem(config);
     if (res?.status !== 200) {
       copyOfTodos.splice(index, 0, cachedTodo);
       setTodos([...copyOfTodos]);
+      updateToatify({
+        toastId,
+        type: "error",
+      });
+      return;
     }
+
+    updateToatify({
+      toastId,
+      type: "success",
+    });
   };
 
   const handleCheckTodo = async (index: number, todoId: string) => {
     const copyOfTodos = [...todos];
-    const cachedTodo = copyOfTodos[index];
+    const cachedTodo = { ...copyOfTodos[index] };
+
     copyOfTodos[index].completed = !copyOfTodos[index].completed;
     copyOfTodos[index].completedAt = copyOfTodos[index].completed
       ? Date.now()
       : null;
     setTodos([...copyOfTodos]);
 
+    const toastId = toast.loading("Updating DB Please wait...");
     const res = await updateTodoCheck(todoId, state.token);
     if (res?.status !== 200) {
+      console.log(copyOfTodos);
+      console.log(cachedTodo);
       copyOfTodos[index] = cachedTodo;
+      // console.log(copyOfTodos)
       setTodos([...copyOfTodos]);
+      updateToatify({
+        toastId,
+        type: "error",
+      });
+      return;
     }
+
+    updateToatify({
+      toastId,
+      type: "success",
+    });
   };
 
   const handleEditTodo = async (
@@ -95,16 +132,28 @@ const Todos = () => {
     name: string
   ) => {
     const copyOfTodos = [...todos];
-    const cachedTodo = copyOfTodos[index];
+    const cachedTodo = { ...copyOfTodos[index] };
     copyOfTodos[index] = { ...copyOfTodos[index], name };
     setTodos([...copyOfTodos]);
-    console.log(todoId);
+
+    const toastId = toast.loading("Updating DB Please wait...");
+
     const res = await updateTodoName({ todoId, token: state.token, name });
     if (res?.status !== 200) {
       copyOfTodos[index] = cachedTodo;
       console.log(copyOfTodos);
       setTodos([...copyOfTodos]);
+      updateToatify({
+        toastId,
+        type: "error",
+      });
+      return;
     }
+
+    updateToatify({
+      toastId,
+      type: "success",
+    });
   };
 
   const handleTimeframeChange = (e: ChangeEvent<HTMLSelectElement>) => {

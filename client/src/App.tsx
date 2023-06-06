@@ -13,6 +13,8 @@ import Register from "./components/Register";
 import UserContext from "./context/UserContext";
 
 import "./App.css";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
