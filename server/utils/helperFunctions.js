@@ -1,8 +1,12 @@
 const jwt = require("jsonwebtoken");
+
+const { secretKey } = require("../config/appConfig");
+const { awsS3 } = require("../config/appConfig");
+
 require("dotenv").config();
 
 exports.generateAccessToken = async ({ email, id }) => {
-  return jwt.sign({ id, email }, process.env.SECRET_KEY, {
+  return jwt.sign({ id, email }, secretKey, {
     expiresIn: "2h",
   });
 };
@@ -32,10 +36,8 @@ exports.getStartEndPeriod = (timeframe) => {
 };
 
 module.exports.processFileForUpload = (file, paramObject) => {
-  console.log(process.env.BUCKET_NAME);
-  console.log(paramObject.bucketName);
   const s3Params = {
-    Bucket: process.env.BUCKET_NAME,
+    Bucket: awsS3.bucketName,
     Key:
       paramObject.fileName === null
         ? new Date().toISOString() + "." + paramObject.fileType

@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
+
 const User = require("../models/User");
+const { secretKey } = require("../config/appConfig");
 
 const authenticateUser = async (req, res, next) => {
   try {
@@ -12,7 +14,7 @@ const authenticateUser = async (req, res, next) => {
         .json({ message: "Access denied. Token not provided." });
     }
 
-    const decoded = jwt.verify(token, process.env.SECRET_KEY); // Add the secret key in .env
+    const decoded = jwt.verify(token, secretKey); // Add the secret key in .env
     const user = await User.findById(decoded.id);
 
     if (!user) {

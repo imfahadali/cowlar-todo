@@ -1,6 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { BACKEND_API } from "./constants";
-import { File } from "buffer";
+import { BACKEND_API } from "../utils/constants";
 
 import { TUserRegistration } from "../types";
 
