@@ -12,7 +12,7 @@ import "@testing-library/jest-dom";
 import Todos from "./Todos";
 import TodoItem from "../components/TodoItem";
 import useFetch from "../hooks/useFetch";
-import { postItem } from "../utils/api";
+import { postItem } from "../services/api";
 
 let mockResponse = [
   { id: 1, name: "Todo 1", completed: false },

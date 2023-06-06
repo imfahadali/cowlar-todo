@@ -7,7 +7,7 @@ import {
   postItem,
   updateTodoCheck,
   updateTodoName,
-} from "../utils/api";
+} from "../services/api";
 import UserContext from "../context/UserContext";
 
 import InputField from "../components/InputField";

@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Formik } from "formik";
 
 import UserContext from "../context/UserContext";
-import { registerUser } from "../utils/api";
+import { registerUser } from "../services/api";
 import { RegistrationValidation } from "../utils/constants";
 import LoadingSpinner from "./LoadingSpinner";
 import { TUserRegistration } from "../types";

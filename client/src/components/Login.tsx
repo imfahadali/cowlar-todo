@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Formik } from "formik";
 
 import UserContext from "../context/UserContext";
-import { loginUser } from "../utils/api";
+import { loginUser } from "../services/api";
 import ModalMsg from "./ModalMsg";
 import { LoginSchema } from "../utils/constants";
 import LoadingSpinner from "./LoadingSpinner";
