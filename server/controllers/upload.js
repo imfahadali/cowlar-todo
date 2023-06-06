@@ -1,9 +1,9 @@
 const AWS = require("aws-sdk");
-// const { uploadFile } = require("../services/AWS/s3");
-const { processFileForUpload } = require("../utils/helperFunctions");
 const fileupload = require("express-fileupload");
 const express = require("express");
 
+const { processFileForUpload } = require("../utils/helperFunctions");
+const { awsS3 } = require("../config/appConfig");
 require("dotenv").config();
 
 const app = express();
@@ -18,8 +18,8 @@ app.use(
 
 const s3 = new AWS.S3({
   region: "eu-west-2",
-  accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
+  accessKeyId: awsS3.accessKeyId,
+  secretAccessKey: awsS3.secretAccessKey,
   signatureVersion: "v4",
 });
 

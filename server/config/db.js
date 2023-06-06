@@ -1,17 +1,14 @@
 // config/db.js
 const mongoose = require("mongoose");
 const MongoClient = require("mongodb").MongoClient;
+
+const { database } = require("./appConfig");
 require("dotenv").config();
 
-const db = process.env.MONGO_URI;
-
 const connectDB = async () => {
-  console.log("Connecting....")
+  console.log("Connecting....");
   try {
-    await mongoose.connect(db, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(database.uri, database.options);
 
     console.log("MongoDB is connected");
   } catch (err) {
