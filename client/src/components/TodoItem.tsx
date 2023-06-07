@@ -37,7 +37,7 @@ const TodoItem = ({
   };
   const handleEnterEdit = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && editableTodo.name.trim() !== "") {
-      callEditTodo()
+      callEditTodo();
     }
   };
 
@@ -57,6 +57,7 @@ const TodoItem = ({
     >
       <div className="form-group flex mr-3">
         <input
+          data-testid={`checkbox-${index}`}
           type="checkbox"
           id={`${editableTodo._id}`}
           checked={editableTodo.completed}
@@ -66,6 +67,7 @@ const TodoItem = ({
       </div>
       {isEditMode ? (
         <input
+          data-testid={`editfield-${index}`}
           type="text"
           value={editableTodo.name}
           className="bg-transparent outline-none border-black"
@@ -87,6 +89,7 @@ const TodoItem = ({
       )}
 
       <img
+        data-testid={`deletemenu-${index}`}
         src="/src/assets/dots.svg"
         width={20}
         alt=""
@@ -97,6 +100,7 @@ const TodoItem = ({
         <div className="bg-gray-900 right-4 top-10 rounded absolute z-10 ">
           {/* <div className="border-b border-gray-500 p-2">edit</div> */}
           <div
+            data-testId={`deletebtn-${index}`}
             className="text-red-500 p-2 cursor-pointer"
             onClick={handleDeleteTodo.bind(null, index, editableTodo._id)}
           >
