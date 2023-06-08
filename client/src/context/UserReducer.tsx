@@ -7,7 +7,6 @@ export const INITIAL_STATE = {
   name: "",
   profile: "",
   token: "",
-  ticket: [],
 };
 
 export const actions = {
@@ -29,7 +28,6 @@ export const reducer = (state: TUserContext, action: any) => {
 const init = () => {
   try {
     const user = sessionStorage.getItem(USER_STORAGE_KEY);
-    console.log("INIT RUNNING");
     if (user !== null) return JSON.parse(user);
     else {
       sessionStorage.setItem(USER_STORAGE_KEY, JSON.stringify(INITIAL_STATE));

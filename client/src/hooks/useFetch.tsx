@@ -9,7 +9,6 @@ const useFetch = (
   const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  console.log(options.query);
 
   const fetchData = async () => {
     const config = {

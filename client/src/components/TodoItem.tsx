@@ -30,7 +30,6 @@ const TodoItem = ({
   const [isEditMode, setIsEditMode] = useState(false);
   const [editableTodo, setEditableTodo] = useState(todo);
   const callEditTodo = () => {
-    // console.log(editableTodo._id)
     handleEditTodo(editableTodo._id, index, editableTodo.name);
     setIsEditMode(false);
     // setEditableTodo(todo.name);
@@ -72,7 +71,6 @@ const TodoItem = ({
           value={editableTodo.name}
           className="bg-transparent outline-none border-black"
           onChange={(e) => {
-            console.log(editableTodo);
             setEditableTodo({ ...editableTodo, name: e.target.value });
           }}
           onBlur={callEditTodo}

@@ -53,11 +53,9 @@ const handleAxiosError = (error: any) => {
   if (axios.isAxiosError(error)) {
     const axiosError = error as AxiosError;
 
-    console.log(error);
     return { message: axiosError.message };
   } else {
     // Handle other types of errors
-    console.log("Error:", error);
     return { message: error, status: undefined };
   }
 };
@@ -139,7 +137,6 @@ export const registerUser = async (credentials: TUserRegistration) => {
   try {
     let url;
     if (credentials.profile) {
-      console.log(credentials.profile);
       const { response, status } = await uploadPhoto(credentials.profile);
       url = response.location;
     }

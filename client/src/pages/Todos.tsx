@@ -36,7 +36,6 @@ const Todos = () => {
   const trackRecentTodos = useRef(-1);
 
   const postNewTodo = async (name: string) => {
-    console.log("running post newTodo");
     const config = {
       url: `${BACKEND_API}/todo`,
       token: state.token,
@@ -73,7 +72,6 @@ const Todos = () => {
     let copyOfTodos = [...todos];
     const cachedTodo = { ...copyOfTodos[index] };
     copyOfTodos = copyOfTodos.filter((todo) => todo._id !== todoId);
-    console.log(copyOfTodos);
     setTodos(copyOfTodos);
     setMenuAppear(-1);
 
@@ -108,10 +106,7 @@ const Todos = () => {
     const toastId = toast.loading("Updating DB Please wait...");
     const res = await updateTodoCheck(todoId, state.token);
     if (res?.status !== 200) {
-      console.log(copyOfTodos);
-      console.log(cachedTodo);
       copyOfTodos[index] = cachedTodo;
-      // console.log(copyOfTodos)
       setTodos([...copyOfTodos]);
       updateToatify({
         toastId,
@@ -141,7 +136,6 @@ const Todos = () => {
     const res = await updateTodoName({ todoId, token: state.token, name });
     if (res?.status !== 200) {
       copyOfTodos[index] = cachedTodo;
-      console.log(copyOfTodos);
       setTodos([...copyOfTodos]);
       updateToatify({
         toastId,

@@ -25,7 +25,7 @@ const Login = ({ setRegister }: Props) => {
     setIsLoading(true);
     const res = await loginUser(values);
     if (res?.status === 200) setState.setUser({ ...res.data.data });
-    else setError(res?.data);
+    else setError(res?.data?.message);
     setIsLoading(false);
     setSubmitting(false);
   };

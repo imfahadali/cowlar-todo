@@ -14,9 +14,7 @@ const InputField = ({ postNewTodo }: IInputFieldProps) => {
   };
 
   const handleButtonSubmission = async () => {
-    console.log("handling button submission");
     if (inputValue.trim() === "") {
-      console.log("input is empty")
       setError("Please enter a value.");
       return;
     }
