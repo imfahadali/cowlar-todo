@@ -27,11 +27,7 @@ function App() {
   const { state } = useContext(UserContext);
 
   const [register, setRegister] = useState(false);
-  console.log(state.token)
-  console.log("state.token")
   if (!state.token) {
-    console.log("state.token")
-    console.log(state.token)
     return register ? (
       <Register setRegister={setRegister} />
     ) : (

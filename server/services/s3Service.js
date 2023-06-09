@@ -24,13 +24,10 @@ const s3 = new AWS.S3({
 });
 
 exports.upload = async (img, name) => {
-  console.log("running strcirt")
-  console.log("img", img)
   const filePath = img.path;
   const fileExtension = (
     filePath.substring(filePath.lastIndexOf(".") + 1) + ""
   ).toLowerCase();
-  console.log(fileExtension);
   const uploadOptions = {
     fileName: name,
     fileType: fileExtension,
@@ -38,7 +35,6 @@ exports.upload = async (img, name) => {
 
   if (allowedImageFormats.includes(fileExtension)) {
     const params = processFileForUpload(img, uploadOptions); // Process and Retrieve the params for S3.upload function
-    console.log(params);
     let location = "";
     let key = "";
     try {

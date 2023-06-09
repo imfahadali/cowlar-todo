@@ -61,7 +61,6 @@ userController.register = async (req, res) => {
     }
 
     if (req.body.img && req.body.name) {
-      console.log("running upload");
       const uploadRes = await upload(req.body.img, req.body.name);
       if (!uploadRes.success) {
         return res.status(400).json({ message: uploadRes.message, data: null });

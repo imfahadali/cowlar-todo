@@ -4,10 +4,7 @@ const { getStartEndPeriod } = require("../utils/helperFunctions");
 const todoController = {};
 
 todoController.getAllTodos = async (req, res) => {
-  // console.log(timeFrame);
   const { start, end } = getStartEndPeriod(req.query.timeframe);
-  console.log("start, end");
-  console.log(start, end);
   if (!start || !end) {
     return res.status(400).json({ message: "Invalid timeframe" });
   }
@@ -29,7 +26,6 @@ todoController.getAllTodos = async (req, res) => {
 
 todoController.createTodo = async (req, res) => {
   const { body, user } = req;
-  console.log(user);
   try {
     const todo = await Todo.create({
       name: body.name,
@@ -57,7 +53,6 @@ todoController.getTodo = async (req, res) => {
 todoController.toggleTodo = async (req, res) => {
   const todoId = req.params.id;
   const userId = req.user._id;
-  console.log(req.user);
 
   try {
     const todo = await Todo.findOne({ _id: todoId, user: userId });
@@ -79,7 +74,6 @@ todoController.toggleTodo = async (req, res) => {
 };
 
 todoController.updateTodo = async (req, res) => {
-  console.log(req.body.name);
   try {
     const todo = await Todo.findOneAndUpdate(
       { _id: req.params.id },
