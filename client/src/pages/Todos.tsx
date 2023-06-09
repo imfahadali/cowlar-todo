@@ -177,6 +177,8 @@ const Todos = () => {
         setHideTodos={setHideTodo}
         hideTodos={hideTodo}
       />
+      <InputField postNewTodo={postNewTodo} />
+
       <div
         className={`${
           !hideTodo ? "animation-expand" : "animation-fade-out"
@@ -215,8 +217,6 @@ const Todos = () => {
         </div>
         {/* )} */}
       </div>
-
-      <InputField postNewTodo={postNewTodo} />
     </div>
   );
 };
