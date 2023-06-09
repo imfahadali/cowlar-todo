@@ -23,18 +23,21 @@ const s3 = new AWS.S3({
   signatureVersion: "v4",
 });
 
-exports.upload = async (req, res) => {
-  const filePath = req.body.img.path;
+exports.upload = async (img, name) => {
+  console.log("running strcirt")
+  console.log("img", img)
+  const filePath = img.path;
   const fileExtension = (
     filePath.substring(filePath.lastIndexOf(".") + 1) + ""
   ).toLowerCase();
   console.log(fileExtension);
   const uploadOptions = {
-    fileName: req.body.name,
+    fileName: name,
     fileType: fileExtension,
   };
+
   if (allowedImageFormats.includes(fileExtension)) {
-    const params = processFileForUpload(req.body.img, uploadOptions); // Process and Retrieve the params for S3.upload function
+    const params = processFileForUpload(img, uploadOptions); // Process and Retrieve the params for S3.upload function
     console.log(params);
     let location = "";
     let key = "";
@@ -43,12 +46,12 @@ exports.upload = async (req, res) => {
       location = Location;
       key = Key;
 
-      res.send({ location, key });
+      return { location, key, success: true };
     } catch (err) {
       console.log(err);
-      res.status(400).json({ message: err });
+      return { message: err , success: false};
     }
   } else {
-    res.send("File Format not supported");
+    return { message: "File Format not supported" , success: false};
   }
 };

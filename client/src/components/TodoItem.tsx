@@ -30,6 +30,7 @@ const TodoItem = ({
   const [isEditMode, setIsEditMode] = useState(false);
   const [editableTodo, setEditableTodo] = useState(todo);
   const callEditTodo = () => {
+    if(todo.name === editableTodo.name) return setIsEditMode(false)
     handleEditTodo(editableTodo._id, index, editableTodo.name);
     setIsEditMode(false);
     // setEditableTodo(todo.name);

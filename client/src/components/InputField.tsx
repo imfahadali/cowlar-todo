@@ -49,7 +49,7 @@ const InputField = ({ postNewTodo }: IInputFieldProps) => {
         </button>
       ) : (
         <button
-          className="px-4 py-2 mt-2 bg-gradient-to-b from-actionlgt via-action to-actiondrk bg-opacity-50  text-white w-full rounded-md opacity-100 transition-opacity duration-300"
+          className="px-4 py-2 bg-gradient-to-b from-actionlgt via-action to-actiondrk bg-opacity-50  text-white w-full rounded-md opacity-100 transition-opacity duration-300"
           onClick={() => setIsInputVisible((prev) => !prev)}
           data-testid="addbtn"
         >

@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 
 const User = require("../models/User");
 const { generateAccessToken } = require("../utils/helperFunctions");
+const { upload } = require("../services/s3Service");
 
 const userController = {};
 
@@ -42,7 +43,8 @@ userController.login = async (req, res) => {
 };
 
 userController.register = async (req, res) => {
-  const { name, email, password, profile } = req.body;
+  const { name, email, password } = JSON.parse(req.body.credentails);
+  let location = null;
 
   if (!(email && password && name)) {
     res
@@ -58,13 +60,23 @@ userController.register = async (req, res) => {
         .json({ message: "Username already exists", data: null });
     }
 
+    if (req.body.img && req.body.name) {
+      console.log("running upload");
+      const uploadRes = await upload(req.body.img, req.body.name);
+      if (!uploadRes.success) {
+        return res.status(400).json({ message: uploadRes.message, data: null });
+      }
+
+      location = uploadRes.location;
+    }
+
     const encryptedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await User.create({
       name,
       email: email.toLowerCase(),
       password: encryptedPassword,
-      profile,
+      profile: location,
     });
 
     const token = await generateAccessToken({

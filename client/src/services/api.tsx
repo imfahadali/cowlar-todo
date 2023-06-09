@@ -135,15 +135,24 @@ export const loginUser = async (credentials: {
 
 export const registerUser = async (credentials: TUserRegistration) => {
   try {
+    const formData: any = new FormData();
+    formData.append(
+      "credentails",
+      JSON.stringify({ ...credentials, profile: null })
+    );
     let url;
     if (credentials.profile) {
-      const { response, status } = await uploadPhoto(credentials.profile);
-      url = response.location;
+      formData.append("img", credentials.profile);
+      formData.append(
+        "name",
+        "s" + credentials.profile.size + credentials.profile.name
+      );
     }
 
-    const res = await axios.post(`${BACKEND_API}/user/register`, {
-      ...credentials,
-      profile: url,
+    const res = await axios.post(`${BACKEND_API}/user/register`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
     return res;
   } catch (error) {
