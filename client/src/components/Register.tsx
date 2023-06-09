@@ -25,7 +25,7 @@ const Register = ({ setRegister }: IRegisterProps) => {
     const res = await registerUser(values);
     console.log(res);
     if (res?.status === 201) setState.setUser(res.data.data);
-    else setError(res?.data);
+    else setError(res?.data?.message);
 
     setSubmitting(false);
     setIsLoading(false);
