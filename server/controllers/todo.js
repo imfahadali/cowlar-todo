@@ -66,7 +66,6 @@ todoController.toggleTodo = async (req, res) => {
     todo.completedAt = todo.completed ? Date.now() : null;
 
     await todo.save();
-    console.log(todo)
     res.status(200).json({ message: "Updated successfully", data: todo });
   } catch (err) {
     console.log(err.message)

@@ -57,7 +57,7 @@ userController.register = async (req, res) => {
     if (existingUser) {
       return res
         .status(409)
-        .json({ message: "Username already exists", data: null });
+        .json({ message: "Email already exists", data: null });
     }
 
     if (req.body.img && req.body.name) {

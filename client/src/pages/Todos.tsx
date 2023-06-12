@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { toast } from "react-toastify";
 
 import useFetch from "../hooks/useFetch";
@@ -36,27 +42,43 @@ const Todos = () => {
   });
   const trackRecentTodos = useRef(-1);
 
+  const filterUnPostedTodos = () => {
+    setTodos((prev: any) => {
+      const todos = prev || [];
+      return todos.filter(
+        (_: any, index: number) => index > trackRecentTodos.current
+      );
+    });
+  };
+
   const postNewTodo = async (name: string) => {
     const config = {
       url: `${BACKEND_API}/todo`,
       token: state.token,
     };
-
     trackRecentTodos.current++;
-    setTodos([{ name: name }, ...todos]);
-    const toastId = toast.loading("Adding to DB Please wait...");
 
+    setTodos((prevTodo: any) => [{ name: name }, ...(prevTodo || [])]);
+
+    const toastId = toast.loading("Adding to DB Please wait...");
     const res = await postItem(config, name);
-    await fetchData();
-    trackRecentTodos.current--;
+    const fetchRes = await fetchData();
 
     if (res.status !== 200) {
       updateToatify({
         toastId,
         type: "error",
       });
+    }
+
+    if (!fetchRes.success && res.status !== 200) {
+      filterUnPostedTodos();
+      trackRecentTodos.current--;
       return;
     }
+
+    trackRecentTodos.current--;
+
     updateToatify({
       toastId,
       type: "success",
@@ -64,23 +86,32 @@ const Todos = () => {
   };
 
   const handleDeleteTodo = async (index: number, todoId: string) => {
+    console.log(index);
     const config = {
       url: `${BACKEND_API}/todo`,
       token: state.token,
       paramsId: todoId,
     };
 
-    let copyOfTodos = [...todos];
-    const cachedTodo = { ...copyOfTodos[index] };
-    copyOfTodos = copyOfTodos.filter((todo) => todo._id !== todoId);
-    setTodos(copyOfTodos);
+    // let copyOfTodos = [...todos];
+    const cachedTodo = { ...todos[index] };
+    // const copyOfTodos =
+    setTodos((prevTodos: any) => {
+      return prevTodos.filter((todo: any) => todo._id !== todoId);
+    });
+
     setMenuAppear(-1);
 
     const toastId = toast.loading("Deleting from DB Please wait...");
     const res = await deleteItem(config);
     if (res?.status !== 200) {
-      copyOfTodos.splice(index, 0, cachedTodo);
-      setTodos([...copyOfTodos]);
+      // copyOfTodos.splice(index, 0, cachedTodo);
+      setTodos((prevTodos: any) => {
+        const newTodos = [...prevTodos];
+        console.log(index);
+        newTodos.splice(index, 0, cachedTodo);
+        return newTodos;
+      });
       updateToatify({
         toastId,
         type: "error",
@@ -102,13 +133,21 @@ const Todos = () => {
     copyOfTodos[index].completedAt = copyOfTodos[index].completed
       ? Date.now()
       : null;
-    setTodos([...copyOfTodos]);
+    setTodos((prevTodos: any) => {
+      const newTodos = [...prevTodos];
+      newTodos[index] = copyOfTodos[index];
+      return newTodos;
+    });
 
     const toastId = toast.loading("Updating DB Please wait...");
     const res = await updateTodoCheck(todoId, state.token);
     if (res?.status !== 200) {
       copyOfTodos[index] = cachedTodo;
-      setTodos([...copyOfTodos]);
+      setTodos((prevTodos: any) => {
+        const newTodos = [...prevTodos];
+        newTodos[index] = cachedTodo;
+        return newTodos;
+      });
       updateToatify({
         toastId,
         type: "error",
@@ -127,17 +166,22 @@ const Todos = () => {
     index: number,
     name: string
   ) => {
-    const copyOfTodos = [...todos];
-    const cachedTodo = { ...copyOfTodos[index] };
-    copyOfTodos[index] = { ...copyOfTodos[index], name };
-    setTodos([...copyOfTodos]);
+    const cachedTodo = { ...todos[index] };
 
+    setTodos((prevTodos: any) => {
+      const copyOfTodos = [...prevTodos];
+      copyOfTodos[index] = { ...copyOfTodos[index], name };
+      return copyOfTodos;
+    });
     const toastId = toast.loading("Updating DB Please wait...");
 
     const res = await updateTodoName({ todoId, token: state.token, name });
     if (res?.status !== 200) {
-      copyOfTodos[index] = cachedTodo;
-      setTodos([...copyOfTodos]);
+      setTodos((prevTodos: any) => {
+        const newTodos = [...prevTodos];
+        newTodos[index] = cachedTodo;
+        return newTodos;
+      });
       updateToatify({
         toastId,
         type: "error",
@@ -162,9 +206,9 @@ const Todos = () => {
 
   useEffect(() => {
     if (error) {
-      toast.error(error.message);
+      toast.error(error.response?.data?.error || error.message);
     }
-  },[error]);
+  }, [error]);
 
   return (
     <div className="m-auto max-w-fit min-w-[300px] md:min-w-fit">

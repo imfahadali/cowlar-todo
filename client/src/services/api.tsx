@@ -23,6 +23,7 @@ export const postItem = async (
     const res = await axios.post(url, { name }, config);
     return { data: res?.data, status: res?.status };
   } catch (error) {
+    console.log(error)
     return handleAxiosError(error);
   }
 };

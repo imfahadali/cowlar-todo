@@ -25,10 +25,12 @@ const useFetch = (
       const res = await axios.get(url, config);
       setResponse(res.data.data);
       setLoading(false);
+      return {success: true, data: res.data.data} 
     } catch (error) {
       console.log(error)
       setLoading(false);
       setError(error);
+      return {success: false, error: error}
     }
   };
 

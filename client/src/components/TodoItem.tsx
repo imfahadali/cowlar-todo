@@ -60,7 +60,7 @@ const TodoItem = ({
           data-testid={`checkbox-${index}`}
           type="checkbox"
           id={`${editableTodo._id}`}
-          checked={editableTodo.completed}
+          checked={editableTodo.completed || false}
           onChange={() => handleCheckTodo(index, editableTodo._id)}
         />
         <label htmlFor={`${editableTodo._id}`} />
@@ -99,7 +99,7 @@ const TodoItem = ({
         <div className="bg-gray-900 right-4 top-10 rounded absolute z-10 ">
           {/* <div className="border-b border-gray-500 p-2">edit</div> */}
           <div
-            data-testId={`deletebtn-${index}`}
+            data-testid={`deletebtn-${index}`}
             className="text-red-500 p-2 cursor-pointer"
             onClick={handleDeleteTodo.bind(null, index, editableTodo._id)}
           >

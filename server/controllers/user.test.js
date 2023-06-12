@@ -190,7 +190,7 @@ describe("User Register", () => {
       expect(User.findOne).toHaveBeenCalledWith({ email: "test@example.com" });
       expect(mockRes.status).toHaveBeenCalledWith(409);
       expect(mockRes.json).toHaveBeenCalledWith({
-        message: "Username already exists",
+        message: "Email already exists",
         data: null,
       });
     });
