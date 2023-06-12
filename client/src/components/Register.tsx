@@ -6,6 +6,7 @@ import { registerUser } from "../services/api";
 import { RegistrationValidation } from "../utils/constants";
 import LoadingSpinner from "./LoadingSpinner";
 import { TUserRegistration } from "../types";
+import { toast } from "react-toastify";
 
 interface IRegisterProps {
   setRegister: (val: boolean) => void;
@@ -14,7 +15,6 @@ interface IRegisterProps {
 const Register = ({ setRegister }: IRegisterProps) => {
   const { setState } = useContext(UserContext);
 
-  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmission = async (
@@ -23,8 +23,9 @@ const Register = ({ setRegister }: IRegisterProps) => {
   ) => {
     setIsLoading(true);
     const res = await registerUser(values);
+    console.log(res);
     if (res?.status === 201) setState.setUser(res.data.data);
-    else setError(res?.data?.message);
+    else toast.error(res?.data?.message);
 
     setSubmitting(false);
     setIsLoading(false);
@@ -178,9 +179,9 @@ const Register = ({ setRegister }: IRegisterProps) => {
                       className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
                     />
                   </div>
-                  {error && (
+                  {/* {error && (
                     <div className="text-red-500 text-right">{error}</div>
-                  )}
+                  )} */}
 
                   <div className="flex items-center space-x-2">
                     <input

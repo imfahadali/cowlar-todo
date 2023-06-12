@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useContext, useRef, useState } from "react";
+import React, { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 import useFetch from "../hooks/useFetch";
@@ -27,6 +27,7 @@ const Todos = () => {
   const {
     response: todos,
     setResponse: setTodos,
+    error,
     loading,
     fetchData,
   } = useFetch(`${BACKEND_API}/todo`, {
@@ -158,6 +159,12 @@ const Todos = () => {
   const handleMenuAppear = async (index: number) => {
     menuAppear === index ? setMenuAppear(-1) : setMenuAppear(index);
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+    }
+  },[error]);
 
   return (
     <div className="m-auto max-w-fit min-w-[300px] md:min-w-fit">

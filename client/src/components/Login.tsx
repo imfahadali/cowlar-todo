@@ -6,6 +6,7 @@ import { loginUser } from "../services/api";
 import ModalMsg from "./ModalMsg";
 import { LoginSchema } from "../utils/constants";
 import LoadingSpinner from "./LoadingSpinner";
+import { toast } from "react-toastify";
 
 type Props = {
   setRegister: (val: boolean) => void;
@@ -15,7 +16,6 @@ const Login = ({ setRegister }: Props) => {
   const { setState } = useContext(UserContext);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmission = async (
@@ -25,7 +25,7 @@ const Login = ({ setRegister }: Props) => {
     setIsLoading(true);
     const res = await loginUser(values);
     if (res?.status === 200) setState.setUser({ ...res.data.data });
-    else setError(res?.data?.message);
+    else toast.error(res?.data?.message);
     setIsLoading(false);
     setSubmitting(false);
   };
@@ -49,7 +49,6 @@ const Login = ({ setRegister }: Props) => {
           } = props;
 
           const changeHandler = (e: any) => {
-            setError(null);
             handleChangeFormik(e);
           };
           return (
@@ -142,9 +141,6 @@ const Login = ({ setRegister }: Props) => {
                       />
                       {errors.password && touched.password && (
                         <div className="text-red-500">{errors.password}</div>
-                      )}
-                      {error && (
-                        <div className="text-red-500 text-right">{error}</div>
                       )}
                     </div>
                     <div>

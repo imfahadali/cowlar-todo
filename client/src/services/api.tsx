@@ -129,7 +129,12 @@ export const loginUser = async (credentials: {
     return res;
   } catch (error) {
     const err = error as AxiosError;
-    return err.response;
+    return err.response
+      ? err.response
+      : {
+          status: err.status || 500,
+          data: { message: err.message || "Something Went Wrong" },
+        };
   }
 };
 
@@ -157,6 +162,11 @@ export const registerUser = async (credentials: TUserRegistration) => {
     return res;
   } catch (error) {
     const err = error as AxiosError;
-    return err.response;
+    return err.response
+      ? err.response
+      : {
+          status: err.status || 500,
+          data: { message: err.message || "Something Went Wrong" },
+        };
   }
 };

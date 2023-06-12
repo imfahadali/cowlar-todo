@@ -57,7 +57,7 @@ userController.register = async (req, res) => {
     if (existingUser) {
       return res
         .status(409)
-        .json({ message: "Username already exists", data: null });
+        .json({ message: "Email already exists", data: null });
     }
 
     if (req.body.img && req.body.name) {
@@ -76,6 +76,9 @@ userController.register = async (req, res) => {
       email: email.toLowerCase(),
       password: encryptedPassword,
       profile: location,
+    }).catch((err) => {
+      console.log(err);
+      return res.status(500).json({ message: "User server error" });
     });
 
     const token = await generateAccessToken({

@@ -69,7 +69,7 @@ const TodoItem = ({
         <input
           data-testid={`editfield-${index}`}
           type="text"
-          value={editableTodo.name}
+          value={editableTodo.name || ""}
           className="bg-transparent outline-none border-black"
           onChange={(e) => {
             setEditableTodo({ ...editableTodo, name: e.target.value });
