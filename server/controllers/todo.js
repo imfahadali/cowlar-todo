@@ -13,13 +13,14 @@ todoController.getAllTodos = async (req, res) => {
     // Find and sort todos with creating time
     const todos = await Todo.find({
       user: req.user._id.toString(),
-      createdAt: { $gte: end, $lte: start }, 
+      createdAt: { $gte: end, $lte: start },
     }).sort([["createdAt", -1]]);
 
     res
       .status(200)
       .json({ message: "Todos fetched successfully", data: todos });
   } catch (err) {
+    console.log(err);
     res.status(404).json({ message: "Todo not found", error: err.message });
   }
 };
@@ -65,8 +66,10 @@ todoController.toggleTodo = async (req, res) => {
     todo.completedAt = todo.completed ? Date.now() : null;
 
     await todo.save();
+    console.log(todo)
     res.status(200).json({ message: "Updated successfully", data: todo });
   } catch (err) {
+    console.log(err.message)
     res
       .status(400)
       .json({ message: "Failed to update todo", error: err.message });
@@ -80,8 +83,6 @@ todoController.updateTodo = async (req, res) => {
       { name: req.body.name },
       { new: true }
     );
-
-    await todo.save();
 
     res.status(200).json({ message: "Updated successfully", data: todo });
   } catch (err) {

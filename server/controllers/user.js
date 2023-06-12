@@ -37,7 +37,7 @@ userController.login = async (req, res) => {
       .status(200)
       .json({ message: "User Logged In Succesfully", data: user });
   } catch (error) {
-    console.error(error);
+    console.log(error); // this will log in a test case I am throwing an error
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -57,7 +57,7 @@ userController.register = async (req, res) => {
     if (existingUser) {
       return res
         .status(409)
-        .json({ message: "Email already exists", data: null });
+        .json({ message: "Username already exists", data: null });
     }
 
     if (req.body.img && req.body.name) {
@@ -76,9 +76,6 @@ userController.register = async (req, res) => {
       email: email.toLowerCase(),
       password: encryptedPassword,
       profile: location,
-    }).catch((err) => {
-      console.log(err);
-      return res.status(500).json({ message: "User server error" });
     });
 
     const token = await generateAccessToken({
@@ -92,11 +89,11 @@ userController.register = async (req, res) => {
       profile: newUser.profile,
       token,
     };
-    res
+    return res
       .status(201)
       .json({ message: "User registered successfully", data: user });
   } catch (error) {
-    console.log(error);
+    console.log(error.message); // this will log in a test case I am throwing an error
     res.status(500).json({ message: "Internal server error" });
   }
 };
